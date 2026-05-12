@@ -1,16 +1,16 @@
 {
   "name": "demoseguridad",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Backend JWT con Node.js, Express y Sequelize",
+  "main": "app/server.js",
+  "type": "module",
   "scripts": {
-     "dev": "nodemon app/server.js",
-     "start": "node app/server.js"
-},
+    "dev": "nodemon app/server.js",
+    "start": "node app/server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",

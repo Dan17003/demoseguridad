@@ -3,30 +3,22 @@ import cors from "cors";
 import dotenv from "dotenv";
 import db from "./models/index.js";
 
-
+// Configurar variables de entorno
 dotenv.config();
-
 
 const app = express();
 
-
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-
-// Detectar entorno
-const isDev = process.env.NODE_ENV === "development";
-
-
-// Sincronización inteligente
+// Sincronizar base de datos SIN borrar tablas
 await db.sequelize.sync({
-  force: isDev // solo borra BD en desarrollo
+  force: false
 });
 
-
-// Inicializar roles (solo si no existen)
+// Inicializar roles si no existen
 const count = await db.role.count();
-
 
 if (count === 0) {
   await db.role.bulkCreate([
@@ -34,25 +26,23 @@ if (count === 0) {
     { id: 2, name: "moderator" },
     { id: 3, name: "admin" }
   ]);
+
   console.log("Roles creados");
 }
 
-
-// rutas
+// Importar rutas
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 
-
+// Usar rutas
 authRoutes(app);
 userRoutes(app);
 
-
-// Puerto desde .env
+// Puerto
 const PORT = process.env.PORT || 3000;
 
-
+// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
   console.log(`Modo: ${process.env.NODE_ENV}`);
 });
-
